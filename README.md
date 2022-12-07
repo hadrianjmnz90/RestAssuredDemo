@@ -7,3 +7,5 @@ Requests validated in this project:
 - Get
 - Delete
 - Put
+
+Tests are located under "src/test/java/test"
