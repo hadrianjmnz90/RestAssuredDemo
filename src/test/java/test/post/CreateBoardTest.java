@@ -1,15 +1,12 @@
 package test.post;
 
 import consts.BoardEndpoints;
-import consts.BoardTestData;
 import consts.StatusCodes;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.BaseTest;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
