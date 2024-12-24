@@ -26,7 +26,6 @@ public class GetBoardsTest extends BaseTest {
     public void checkGetAllBoards() {
         Response response = requestWithAuth()
                 .queryParam("fields", "id,name")
-                .pathParam("member", BoardTestData.MEMBER)
                 .get(BoardEndpoints.GET_ALL_MEMBER_BOARDS_URL);
         response
                 .then()
@@ -85,7 +84,7 @@ public class GetBoardsTest extends BaseTest {
                 .log().body();
     }
 
-    @BeforeEach
+ //   @BeforeEach
     public void testDeleteAllBoards() {
         Response response = requestWithAuth()
                 .queryParam("fields", "id,name")

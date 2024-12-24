@@ -34,32 +34,9 @@ public class CreateBoardTest extends BaseTest {
                 .body("name", equalTo(boardName));
     }
 
-    @BeforeEach
-    public void testDeleteAllBoards() {
-        Response response = requestWithAuth()
-                .queryParam("fields", "id,name")
-                .pathParam("member", BoardTestData.MEMBER)
-                .get(BoardEndpoints.GET_ALL_MEMBER_BOARDS_URL);
-        response
-                .then()
-                .statusCode(StatusCodes.CODE200);
-
-        List<String> boardIds = response.body().jsonPath().get("id");
-        if (!boardIds.isEmpty()) {
-            for (String boardId : boardIds) {
-                requestWithAuth()
-                        .pathParam("id", boardId)
-                        .delete(BoardEndpoints.DELETE_BOARD_URL)
-                        .then()
-                        .statusCode(StatusCodes.CODE200);
-            }
-        } else {
-            System.out.println("No boards to delete");
-        }
-    }
-
-    //  @Test
+      @Test
     public void deleteCreatedBoard() {
+        createdBoardId = "676b2d3ef242fb19f034c98c";
         requestWithAuth()
                 .pathParam("id", createdBoardId)
                 .delete(BoardEndpoints.DELETE_BOARD_URL)

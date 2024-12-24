@@ -10,15 +10,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation(
-            ['io.rest-assured:rest-assured:4.4.0'],
-            ['io.rest-assured:json-schema-validator:4.4.0'],
-            ['org.junit.jupiter:junit-jupiter:5.7.0']
-    )
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    testImplementation 'io.rest-assured:json-schema-validator:5.5.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
 test {
     useJUnitPlatform()
 }
-sourceCompatibility = JavaVersion.VERSION_1_9
-targetCompatibility = JavaVersion.VERSION_1_9
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
