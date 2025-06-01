@@ -6,6 +6,7 @@ import consts.StatusCodes;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.BaseTest;
@@ -36,19 +37,34 @@ public class GetBoardsTest extends BaseTest {
 
     @Test
     public void checkGetSingleBoard() {
-        createdBoardId = createBoard();
-        requestWithAuth().pathParam("id", createdBoardId)
+        String firstBoardId = getFirstBoardId();
+        System.out.println(firstBoardId);
+        requestWithAuth().pathParam("id", firstBoardId)
                 .get(BoardEndpoints.GET_BOARD_URL)
                 .then()
                 .statusCode(StatusCodes.CODE200)
                 .body("name", equalTo(boardName));
     }
 
+    public String getFirstBoardId() {
+        Response response = requestWithAuth()
+                .queryParam("fields", "id,name")
+                .get(BoardEndpoints.GET_ALL_MEMBER_BOARDS_URL);
+        response
+                .then()
+                .statusCode(StatusCodes.CODE200)
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/get_boards.json"));
+        System.out.println(response.body().asString());
+        List<String> ids = response.jsonPath().getList("id");
+        Assertions.assertFalse(ids.isEmpty(), "Expected at least one board ID in the response");
+        return response.body().jsonPath().getString("id[0]");
+    }
+
     @Test
     public void checkGetListsFromSpecificBoard() {
-        createdBoardId = createBoard();
+        String firstBoardId = getFirstBoardId();
         requestWithAuth().
-                pathParam("id", createdBoardId)
+                pathParam("id", firstBoardId)
                 .get(BoardEndpoints.GET_BOARD_LISTS)
                 .then()
                 .statusCode(StatusCodes.CODE200)
@@ -60,8 +76,8 @@ public class GetBoardsTest extends BaseTest {
 
     @Test
     public void checkGetAllCardsFromAList() {
-        createdBoardId = createBoard();
-        String listId = getFirstListIdFromBoard(createdBoardId);
+        String firstBoardId = getFirstBoardId();
+        String listId = getFirstListIdFromBoard(firstBoardId);
         requestWithAuth().
                 pathParam("id", listId)
                 .get(BoardEndpoints.GET_BOARD_CARDS)
@@ -73,8 +89,8 @@ public class GetBoardsTest extends BaseTest {
 
     @Test
     public void checkGetSingleCardFromAList() {
-        createdBoardId = createBoard();
-        String cardId = getCreateNewCardId(createdBoardId);
+        String firstBoardId = getFirstBoardId();
+        String cardId = getCreateNewCardId(firstBoardId);
         requestWithAuth().
                 pathParam("id", cardId) // card id
                 .get(BoardEndpoints.GET_SINGLE_CARD)
