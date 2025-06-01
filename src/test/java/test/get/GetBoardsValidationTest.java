@@ -38,7 +38,7 @@ public class GetBoardsValidationTest extends BaseTest {
         response
                 .then()
                 .statusCode(StatusCodes.CODE404);
-        Assertions.assertEquals("unauthorized permission requested", response.body().asString());
+        Assertions.assertEquals("The requested resource was not found.", response.body().asString());
     }
 
     @Test
@@ -48,11 +48,11 @@ public class GetBoardsValidationTest extends BaseTest {
                         "key", "8b32218e6887516d17c84253faf967b6",
                         "token", "492343b8106e7df3ebb7f01e219cbf32827c852a5f9e2b8f9ca296b1cc604955"
                 ))
-                .pathParam("id", "60d847d9aad2437cb984f8e0")
+                .pathParam("id", "683c85c580e0ea27c8dbb168")
                 .get(BoardEndpoints.GET_BOARD_URL);
         response
                 .then()
                 .statusCode(StatusCodes.CODE401);
-        Assertions.assertEquals("invalid token", response.body().asString());
+        Assertions.assertEquals("invalid key", response.body().asString());
     }
 }
