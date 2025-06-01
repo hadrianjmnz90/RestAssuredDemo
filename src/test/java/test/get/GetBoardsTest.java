@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.BaseTest;
@@ -86,7 +87,7 @@ public class GetBoardsTest extends BaseTest {
 
           response.then()
                 .statusCode(StatusCodes.CODE200)
-                .body("", hasSize(0));
+                .body("", hasSize(1));
     }
 
     @Test
@@ -102,32 +103,8 @@ public class GetBoardsTest extends BaseTest {
                 .log().body();
     }
 
- //   @BeforeEach
-    public void testDeleteAllBoards() {
-        Response response = requestWithAuth()
-                .queryParam("fields", "id,name")
-                .pathParam("member", BoardTestData.MEMBER)
-                .get(BoardEndpoints.GET_ALL_MEMBER_BOARDS_URL);
-        response
-                .then()
-                .statusCode(StatusCodes.CODE200);
-
-        List<String> boardIds = response.body().jsonPath().get("id");
-        if (!boardIds.isEmpty()) {
-            for (String boardId : boardIds) {
-                System.out.println("Deleting board: " + boardId);
-                requestWithAuth()
-                        .pathParam("id", boardId)
-                        .delete(BoardEndpoints.DELETE_BOARD_URL)
-                        .then()
-                        .statusCode(StatusCodes.CODE200);
-            }
-        } else {
-            System.out.println("No boards to delete");
-        }
-    }
-
-    public String createBoard() {
+    @BeforeAll
+    public static void  createBoard() {
         String boardId;
         String responseBoardName;
         Response response = requestWithAuth()
@@ -142,8 +119,6 @@ public class GetBoardsTest extends BaseTest {
                 .then()
                 .statusCode(200)
                 .body("name", equalTo(boardName));
-
-        return boardId;
     }
 
 

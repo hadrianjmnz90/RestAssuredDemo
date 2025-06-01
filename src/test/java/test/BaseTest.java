@@ -13,7 +13,7 @@ public class BaseTest {
         RestAssured.baseURI = BoardEndpoints.BASE_URL;
     }
 
-    protected RequestSpecification requestWithAuth() {
+    protected static RequestSpecification requestWithAuth() {
         return RestAssured.given()
                 .queryParams(BoardTestData.USER_KEY_TOKEN);
     }
