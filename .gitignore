@@ -45,6 +45,3 @@ bin/
 .idea
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
-gradlew
-gradlew.bat
-settings.gradle
