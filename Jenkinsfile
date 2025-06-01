@@ -10,15 +10,14 @@ pipeline {
 
         stage('Test') {
             steps {
-               sh './gradlew clean test'
+               bat 'gradlew.bat test'
             }
         }
     }
 
     post {
         always {
-            // This publishes test results to Jenkins UI
-              junit '**/build/test-results/test/*.xml'
+             junit '**/build/test-results/test/*.xml'
         }
     }
 }
