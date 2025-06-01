@@ -17,9 +17,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    reports {
-        junitXml = true
-    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
