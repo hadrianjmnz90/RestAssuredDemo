@@ -24,6 +24,5 @@ public class DeleteSingleBoardTest extends BaseTest {
                 .delete(BoardEndpoints.DELETE_BOARD_URL)
                 .then().statusCode(StatusCodes.CODE200);
         System.out.println("deleted board id: " + boardId);
-
     }
 }
