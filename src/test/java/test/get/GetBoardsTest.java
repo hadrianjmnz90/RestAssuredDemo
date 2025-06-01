@@ -78,13 +78,15 @@ public class GetBoardsTest extends BaseTest {
     public void checkGetAllCardsFromAList() {
         String firstBoardId = getFirstBoardId();
         String listId = getFirstListIdFromBoard(firstBoardId);
-        requestWithAuth().
+        Response response = requestWithAuth().
                 pathParam("id", listId)
-                .get(BoardEndpoints.GET_BOARD_CARDS)
-                .then()
+                .get(BoardEndpoints.GET_BOARD_CARDS);
+
+        System.out.println(response.body().asString());
+
+          response.then()
                 .statusCode(StatusCodes.CODE200)
-                .body("", hasSize(0))
-                .log().body();
+                .body("", hasSize(0));
     }
 
     @Test
